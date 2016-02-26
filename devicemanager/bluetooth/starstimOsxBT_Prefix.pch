@@ -1,0 +1,139 @@
+/*!
+ * \file starstimOsxBT_Prefix.pch
+ *
+ * \author Anton Albajes-Eizagirre anton.albajes-eizagirre@starlab.es
+ * \date 01/08/2012
+ * \version 1.0
+ *
+ * \brief API that allows accesing the Bluetooth stack in MAC OSX. Following the interface of Javi Acedo
+ *
+ * IMPORTANT: This module allows up to 5 concurrent RFCOMM channels open on 5 different BT devices
+ *            Each RFCOMM channel will be identified by the corresponding 'handler'
+ */
+
+
+//
+// Prefix header for all source files of the 'starstimOsxBT' target in the 'starstimOsxBT' project.
+//
+
+#ifndef __STARSTIM_OSX_BT__
+#define __STARSTIM_OSX_BT__
+
+#ifndef BLUETOOTH_MAX_NAME_SIZE
+#define BLUETOOTH_MAX_NAME_SIZE             (248)
+#endif
+
+#include <stdlib.h>
+
+int iniBTSockets();
+
+void closeBTSockets();
+
+/*!
+ * It gets the already paired devices in the system.
+ *
+ * \return Number of already paired devices in the system.
+ */
+int getNumPairedDevices();
+
+/*!
+ * It gets the devices that are not paired in the system yet. The information
+ * is updated by calling scanNeighborhood.
+ *
+ * \return Number of devices in the neigborhood but not paired yet.
+ */
+int getNumNotPairedDevices();
+
+/*!
+ * The application calls this function for discovering new devices. The
+ * information is retrieved by calling getNumNotPairedDevices and 
+ * getInfoNotPairedDevice.
+ *
+ * \return A positive value is returned when the scans successfully finishes.
+ * It returns 0 if there where some error during the discovery procedure.
+ */
+int scanNeighborhood();
+
+/*!
+ * It performs the authentication procuder for pairing the system with the
+ * device whose mac address is provided.
+ *
+ * \param macAddress MAC address of the remote device.
+ *
+ * \return It returns a positive value if the pairing is successfully done.
+ * It returns zero when the provided mac does not match with any of the
+ * devices detected after calling the scanNeighborhood function. A negative
+ * value is returned if there were any problem during the authentication
+ * procedure.
+ */
+int pairDevice(const unsigned char * macAddress,const char *pin);
+
+/*!
+ * It remove the authentication link between the computer an the device whose
+ * mac address is provided.
+ *
+ * \param macAddress MAC address of the remote device to be unpaired.
+ *
+ * \return It return a positive value if the unpairing is successful. It
+ * returns a negative value when the device could not be removed from the
+ * system.
+ *
+ *	WARNING: CURRENTLY _NOT_ IMPLEMENTED
+ *
+ */
+int removeDevice(const unsigned char*);
+
+/*!
+ * This function provides the name and the mac address of a Bluetooth device
+ * already paired in the system.
+ *
+ * \param index 0-based index of the device which is desired to retrieve the
+ * information
+ *
+ * \param deviceName output parameter where the device name is copied.
+ *
+ * \param macAddress output parameter where the MAC address is copied.
+ *
+ * \return It return a positive value if the information has been copied to
+ * the output parameters. A zero value is returned if the provided index does
+ * not correspond to a valid paired Bluetooth device. A negative value is
+ * returned if there is some error while retrieving the information.
+ */
+int getInfoPairedDevice (unsigned int index, wchar_t *deviceName, unsigned char * macAddress);
+
+/*!
+ * This function provides the name and the mac address of a Bluetooth device
+ * that is persent in the eighborhood but is not paired yet. The information
+ * is updated by calling scanNeighborhood.
+ *
+ * \param index 0-based index of the device which is desired to retrieve the
+ * information
+ *
+ * \param deviceName output parameter where the device name is copied.
+ *
+ * \param macAddress output parameter where the MAC address is copied.
+ *
+ * \return It return a positive value if the information has been copied to
+ * the output parameters. A zero value is returned if the provided index does
+ * not correspond to a valid paired Bluetooth device. A negative value is
+ * returned if there is some error while retrieving the information.
+ */
+int getInfoNotPairedDevice (unsigned int index, wchar_t *deviceName, unsigned char * macAddress);
+
+int openRFCOMM(unsigned char const *mac, unsigned int *handler);
+
+int closeRFCOMM(unsigned int handler);
+
+int writeRFCOMM(unsigned int handler, char *buffer, unsigned long length);
+
+int readRFCOMM(unsigned int handler, char *buffer, unsigned long length, unsigned int timeout);
+
+int queryBuffer(unsigned int handler);
+
+unsigned long queryReceived(unsigned int handler);
+
+void writeLogDebugBluetooth(const char *string);
+
+
+
+#endif // __STARSTIM_OSX_BT__

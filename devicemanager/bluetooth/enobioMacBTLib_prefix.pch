@@ -1,0 +1,137 @@
+/*!
+ * \file enobioMacBTLib_prefix.pch
+ *
+ * \author Anton Albajes-Eizagirre
+ * \date 17/04/2012
+ * \version 1.0
+ *
+ * \brief API that allows accesing the Bluetooth stack in Mac OS X.
+ *
+ * Uses Objective-C++ class
+ *
+ * Port to Mac IOBluetooth stack from WinBluetoothAPI.h by J. Acedo
+ *
+ */
+
+#ifndef __MACBLUETOOTHAPI__
+#define __MACBLUETOOTHAPI__
+
+//
+// Prefix header for all source files of the 'enobioMacBTLib' target in the 'enobioMacBTLib' project.
+//
+
+#ifndef BLUETOOTH_MAX_NAME_SIZE
+#define BLUETOOTH_MAX_NAME_SIZE             (248)
+#endif
+	
+#ifndef MAX_AFTERBUSY_WAIT
+#define MAX_AFTERBUSY_WAIT 5000
+#endif
+
+#include <stdio.h>
+#include <fcntl.h>
+
+bool compareAddress(const unsigned char *a, unsigned char *b);
+
+	/*!
+	 * The application calls this function for discovering new devices. The
+	 * information is retrieved by calling getNumNotPairedDevices and 
+	 * getInfoNotPairedDevice.
+	 *
+	 * \return A positive value is returned when the scans successfully finishes.
+	 * It returns 0 if there where some error during the discovery procedure.
+	 */
+	int scanNeighborhood ();
+	
+	/*!
+	 * It gets the already paired devices in the system.
+	 *
+	 * \return Number of already paired devices in the system.
+	 */
+	int getNumPairedDevices ();
+	
+	/*!
+	 * It gets the devices that are not paired in the system yet. The information
+	 * is updated by calling scanNeighborhood.
+	 *
+	 * \return Number of devices in the neigborhood but not paired yet.
+	 */
+	int getNumNotPairedDevices ();
+	
+	/*!
+	 * This function provides the name and the mac address of a Bluetooth device
+	 * already paired in the system.
+	 *
+	 * \param index 0-based index of the device which is desired to retrieve the
+	 * information
+	 *
+	 * \param deviceName output parameter where the device name is copied.
+	 *
+	 * \param macAddress output parameter where the MAC address is copied.
+	 *
+	 * \return It return a positive value if the information has been copied to
+	 * the output parameters. A zero value is returned if the provided index does
+	 * not correspond to a valid paired Bluetooth device. A negative value is
+	 * returned if there is some error while retrieving the information.
+	 */
+	int getInfoPairedDevice (unsigned int index, wchar_t* deviceName, unsigned char * macAddress);
+	
+	/*!
+	 * This function provides the name and the mac address of a Bluetooth device
+	 * that is persent in the eighborhood but is not paired yet. The information
+	 * is updated by calling scanNeighborhood.
+	 *
+	 * \param index 0-based index of the device which is desired to retrieve the
+	 * information
+	 *
+	 * \param deviceName output parameter where the device name is copied.
+	 *
+	 * \param macAddress output parameter where the MAC address is copied.
+	 *
+	 * \return It return a positive value if the information has been copied to
+	 * the output parameters. A zero value is returned if the provided index does
+	 * not correspond to a valid paired Bluetooth device. A negative value is
+	 * returned if there is some error while retrieving the information.
+	 */
+	int getInfoNotPairedDevice (unsigned int index, wchar_t* deviceName, unsigned char * macAddress);
+	
+	/*!
+	 * It performs the authentication procuder for pairing the system with the
+	 * device whose mac address is provided.
+	 *
+	 * \param macAddress MAC address of the remote device.
+	 *
+	 * \return It returns a positive value if the pairing is successfully done.
+	 * It returns zero when the provided mac does not match with any of the
+	 * devices detected after calling the scanNeighborhood function. A negative
+	 * value is returned if there were any problem during the authentication
+	 * procedure.
+	 */
+	int pairDevice(const unsigned char * macAddress,const char *pin);
+	
+	/*!
+	 * It gets the serial port number for an already paired device.
+	 *
+	 * \param macAddress MAC address of the remote device.
+	 *
+	 * \return number of the serial port associated to the device whose MAC
+	 * address is provided.
+	 */
+	unsigned char getSerialPort(const unsigned char * macAddress);
+	
+	
+	int iniBTSockets ();
+	
+	void closeBTSockets ();
+	
+	int openRFCOMM (const unsigned char * macAddress, unsigned int * handle);
+	
+	int closeRFCOMM (unsigned int handle);
+	
+	int readRFCOMM (unsigned int handle, char * buffer, unsigned long numberBytes, unsigned int timeout);
+	
+	int writeRFCOMM (unsigned int handle, char * buffer, unsigned long numBytes);
+	
+    void writeLogDebugBluetooth(const char *string);
+	
+#endif
