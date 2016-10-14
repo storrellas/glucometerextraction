@@ -11,10 +11,10 @@ void ElectrodePlacement::sortElectrodes(const ElectrodeSort sort)
     switch(sort)
     {
     case SortedByName:
-        _edb.sortByName(_dev/*, _enobio20Setup*/, _eogEnabled);
+        _edb.sortByName(_dev/*, _icognos20Setup*/, _eogEnabled);
         break;
     case SortedByScalp:
-        _edb.sortByScalp(_dev/*, _enobio20Setup*/, _eogEnabled);
+        _edb.sortByScalp(_dev/*, _icognos20Setup*/, _eogEnabled);
         break;
     }
 }
@@ -40,7 +40,7 @@ void setDevice(DeviceType::SupportedNICDevice dev)
     {
         QMutexLocker locker(&setup._electrodeSetupMutex);
         setup._dev = dev;
-        setup._enobio20Setup = EnobioStd;
+        setup._icognos20Setup = icognosStd;
         switch(dev)
         {
         case DeviceType::ENOBIO8:
@@ -50,12 +50,12 @@ void setDevice(DeviceType::SupportedNICDevice dev)
         case DeviceType::ENOBIO20:
             setup.setupDevice(20);
             setup._deviceScalpTotal = 19;
-            setup.setupEnobio20Standard();
+            setup.setupicognos20Standard();
             break;
         case DeviceType::ENOBIO32:
             setup.setupDevice(32);
             setup._deviceScalpTotal = 32;
-            setup.setupEnobio32();
+            setup.setupicognos32();
             break;
         case DeviceType::STARSTIM:
             setup.setupDevice(8,8);
@@ -175,10 +175,10 @@ void resetElectrodePlacement()
     switch(setup._dev)
     {
     case DeviceType::ENOBIO20:
-        setup.setupEnobio20Standard();
+        setup.setupicognos20Standard();
         break;
     case DeviceType::ENOBIO32:;
-        setup.setupEnobio32();
+        setup.setupicognos32();
         break;
         /*
     case DeviceType::ENOBIO8:
@@ -230,55 +230,55 @@ int getPositionChannel(unsigned int posID)
     return INVALID_ELECTRODE;
 }
 
-void setEnobioSetup(EnobioSetup s)
+void seticognosSetup(icognosSetup s)
 {
     QMutexLocker locker(&setup._electrodeSetupMutex);
-    if(setup._dev != DeviceType::ENOBIO20 || setup._enobio20Setup == s)
+    if(setup._dev != DeviceType::ENOBIO20 || setup._icognos20Setup == s)
         return;
     switch(s)
     {
-    case EnobioStd:
+    case icognosStd:
         setup._deviceChannelTotal = 20;
-        setup.setupEnobio20Standard();
+        setup.setupicognos20Standard();
         break;
     case E20BipolarLong:
         setup._eogEnabled = false;
         setup._deviceChannelTotal = Electrodes::ElectrodePosition::BipolarLongitudinal::supportedBipolarLongitudinalPairs;
-        setup.setupEnobio20BipolarLongitudinal();        
+        setup.setupicognos20BipolarLongitudinal();        
         break;
     case E20BipolarTrans:
         setup._eogEnabled = false;
         setup._deviceChannelTotal = Electrodes::ElectrodePosition::BipolarTransversal::supportedBipolarTransversalPairs;
-        setup.setupEnobio20BipolarTransversal();
+        setup.setupicognos20BipolarTransversal();
         break;
     }
-    setup._enobio20Setup = s;
+    setup._icognos20Setup = s;
 }
 
-EnobioSetup currentEnobioSetup()
+icognosSetup currenticognosSetup()
 {    
     QMutexLocker locker(&setup._electrodeSetupMutex);
-    return setup._enobio20Setup;
+    return setup._icognos20Setup;
 }
 
-void ElectrodePlacement::setupEnobio20Standard()
+void ElectrodePlacement::setupicognos20Standard()
 {
-    _edb.setupEnobio20Standard();
+    _edb.setupicognos20Standard();
 }
 
-void ElectrodePlacement::setupEnobio20BipolarLongitudinal()
+void ElectrodePlacement::setupicognos20BipolarLongitudinal()
 {
-    _edb.setupEnobio20BipolarLongitudinal();
+    _edb.setupicognos20BipolarLongitudinal();
 }
 
-void ElectrodePlacement::setupEnobio20BipolarTransversal()
+void ElectrodePlacement::setupicognos20BipolarTransversal()
 {
-    _edb.setupEnobio20BipolarTransversal();
+    _edb.setupicognos20BipolarTransversal();
 }
 
-void ElectrodePlacement::setupEnobio32()
+void ElectrodePlacement::setupicognos32()
 {
-    _edb.setupEnobio32();
+    _edb.setupicognos32();
 }
 
 void ElectrodePlacement::ElectrodePlacementsDict::setEOGPlacement(bool enabled)
@@ -412,7 +412,7 @@ const QVector<unsigned int>& getPositionIDs()
     return setup._edb.electrodePositionIDsSorted;
 }
 
-const QVector<QString>&  getPositionNames(DeviceType::SupportedNICDevice dev,/* EnobioSetup config,*/ ElectrodeSort s, bool withEOG)
+const QVector<QString>&  getPositionNames(DeviceType::SupportedNICDevice dev,/* icognosSetup config,*/ ElectrodeSort s, bool withEOG)
 {
     QMutexLocker locker(&setup._electrodeSetupMutex);
     switch(s)
@@ -428,7 +428,7 @@ const QVector<QString>&  getPositionNames(DeviceType::SupportedNICDevice dev,/* 
             }
             else
             {
-                //case EnobioStd:
+                //case icognosStd:
                 return setup._edb.devicePositionNamesByName[ElectrodePlacement::ElectrodePlacementsDict::ConfigE20Std];
             //    break;
                 /*
@@ -464,7 +464,7 @@ const QVector<QString>&  getPositionNames(DeviceType::SupportedNICDevice dev,/* 
         case DeviceType::ENOBIO20:
             if(withEOG)//switch(config)
             {
-                //case EnobioStd:
+                //case icognosStd:
                 return setup._edb.devicePositionNamesByScalp[ElectrodePlacement::ElectrodePlacementsDict::ConfigE20StdEOG];
             }
             else
@@ -492,7 +492,7 @@ const QVector<QString>&  getPositionNames(DeviceType::SupportedNICDevice dev,/* 
     }
 }
 
-const QVector<unsigned int>& getPositionIDs(DeviceType::SupportedNICDevice dev,/* EnobioSetup config,*/ ElectrodeSort s, bool withEOG)
+const QVector<unsigned int>& getPositionIDs(DeviceType::SupportedNICDevice dev,/* icognosSetup config,*/ ElectrodeSort s, bool withEOG)
 {
     QMutexLocker locker(&setup._electrodeSetupMutex);
     switch(s)
@@ -504,7 +504,7 @@ const QVector<unsigned int>& getPositionIDs(DeviceType::SupportedNICDevice dev,/
             //switch(config)
             if(withEOG)
             {
-                //case EnobioStd:
+                //case icognosStd:
                 return setup._edb.devicePositionIDsByName[ElectrodePlacement::ElectrodePlacementsDict::ConfigE20StdEOG];
             }
             else
@@ -536,7 +536,7 @@ const QVector<unsigned int>& getPositionIDs(DeviceType::SupportedNICDevice dev,/
             //switch(config)
             if(withEOG)
             {
-                //case EnobioStd:
+                //case icognosStd:
                 return setup._edb.devicePositionIDsByScalp[ElectrodePlacement::ElectrodePlacementsDict::ConfigE20StdEOG];
             }
             else
@@ -588,9 +588,9 @@ const QVector<QString>  getPlacementNames()
 {
     QMutexLocker locker(&setup._electrodeSetupMutex);
     QVector<QString> names;
-    switch(setup._enobio20Setup)
+    switch(setup._icognos20Setup)
     {
-    case EnobioStd:
+    case icognosStd:
         names.resize(setup._edb.currentElectrodePlacement.size());
         for(int e = 0; e < setup._edb.currentElectrodePlacement.size(); e++)
         {
@@ -634,17 +634,17 @@ QString getPlacementName(unsigned int channel)
         {
             name = setup._edb.electrodeChannelNames[channel];
         }
-        else if(setup._enobio20Setup == EnobioStd)
+        else if(setup._icognos20Setup == icognosStd)
         {    // if(ElectrodePosition::isPosition(setup._edb.currentElectrodePlacement[e]))
             name = setup._edb.electrodePositionNames[setup._edb.currentElectrodePlacement[channel]];
         }
-        else //Special Enobio20 configuration
+        else //Special icognos20 configuration
         {
-            if(setup._enobio20Setup == E20BipolarLong)
+            if(setup._icognos20Setup == E20BipolarLong)
             {// if(ElectrodePosition::isBipolarLongitudinal(setup._edb.currentElectrodePlacement[e]))
                 name = setup._edb.bipolarLongPairNames[setup._edb.currentElectrodePlacement[channel]];
             }
-            else// if(setup._enobio20 == E20BipolarTransversal)
+            else// if(setup._icognos20 == E20BipolarTransversal)
             {// if(ElectrodePosition::isTransBip(setup._edb.currentElectrodePlacement[e]))
                 name = setup._edb.bipolarTransPairNames[setup._edb.currentElectrodePlacement[channel]];
             }
@@ -666,7 +666,7 @@ int getPlacementID(const QString& channelName)
 }
 
 void ElectrodePlacement::ElectrodePlacementsDict::sortByName(DeviceType::SupportedNICDevice dev
-                                                             /*, EnobioSetup s*/, bool eog)
+                                                             /*, icognosSetup s*/, bool eog)
 {
     //electrodePositionIDsSorted = electrodePositionIDsByName;
     //electrodePositionNamesSorted = electrodePositionNamesByName;
@@ -680,7 +680,7 @@ void ElectrodePlacement::ElectrodePlacementsDict::sortByName(DeviceType::Support
     case DeviceType::ENOBIO20:
         /*switch(s)
         {
-        case EnobioStd:
+        case icognosStd:
         */
             if(eog)
             {
@@ -711,7 +711,7 @@ void ElectrodePlacement::ElectrodePlacementsDict::sortByName(DeviceType::Support
 }
 
 void ElectrodePlacement::ElectrodePlacementsDict::sortByScalp(DeviceType::SupportedNICDevice dev
-                                                              /*, EnobioSetup s*/, bool eog)
+                                                              /*, icognosSetup s*/, bool eog)
 {
     //electrodePositionIDsSorted = electrodePositionIDsByScalp;
     //electrodePositionNamesSorted = electrodePositionNamesByScalp;
@@ -726,7 +726,7 @@ void ElectrodePlacement::ElectrodePlacementsDict::sortByScalp(DeviceType::Suppor
         /*
         switch(s)
         {
-        case EnobioStd:
+        case icognosStd:
         */  if(eog)
             {
                 electrodePositionIDsSorted = devicePositionIDsByScalp[ConfigE20StdEOG];
@@ -1152,7 +1152,7 @@ void ElectrodePlacement::ElectrodePlacementsDict::buildDevicePositionDict(Electr
     devicePositionNamesByScalp[econf] = enamesSorted;
 }
 
-void ElectrodePlacement::ElectrodePlacementsDict::setupEnobio20Standard()
+void ElectrodePlacement::ElectrodePlacementsDict::setupicognos20Standard()
 {
     setElectrodePlacement(ElectrodeChannel::CH1 , ElectrodePosition::P7 );
     setElectrodePlacement(ElectrodeChannel::CH2 , ElectrodePosition::P4 );
@@ -1176,7 +1176,7 @@ void ElectrodePlacement::ElectrodePlacementsDict::setupEnobio20Standard()
     setElectrodePlacement(ElectrodeChannel::CH20, ElectrodePosition::EXT);
 }
 
-void ElectrodePlacement::ElectrodePlacementsDict::setupEnobio20BipolarLongitudinal()
+void ElectrodePlacement::ElectrodePlacementsDict::setupicognos20BipolarLongitudinal()
 {
     setElectrodePlacement(ElectrodeChannel::CH1 , ElectrodePosition::BipolarLongitudinal::FP1_F7 );
     setElectrodePlacement(ElectrodeChannel::CH2 , ElectrodePosition::BipolarLongitudinal::F7_T7  );
@@ -1200,7 +1200,7 @@ void ElectrodePlacement::ElectrodePlacementsDict::setupEnobio20BipolarLongitudin
     //setElectrodePlacement(ElectrodeChannel::CH20, ElectrodePosition::invalidElectrodePosition   );
 }
 
-void ElectrodePlacement::ElectrodePlacementsDict::setupEnobio20BipolarTransversal()
+void ElectrodePlacement::ElectrodePlacementsDict::setupicognos20BipolarTransversal()
 {
     setElectrodePlacement(ElectrodeChannel::CH1 , ElectrodePosition::BipolarTransversal::F7_FP1  );
     setElectrodePlacement(ElectrodeChannel::CH2 , ElectrodePosition::BipolarTransversal::FP1_FP2 );
@@ -1224,7 +1224,7 @@ void ElectrodePlacement::ElectrodePlacementsDict::setupEnobio20BipolarTransversa
     //setElectrodePlacement(ElectrodeChannel::CH20, ElectrodePosition::invalidElectrodePosition   );
 }
 
-void ElectrodePlacement::ElectrodePlacementsDict::setupEnobio32()
+void ElectrodePlacement::ElectrodePlacementsDict::setupicognos32()
 {
     setElectrodePlacement(ElectrodeChannel::CH1 , ElectrodePosition::P7 );
     setElectrodePlacement(ElectrodeChannel::CH2 , ElectrodePosition::P4 );
@@ -1265,13 +1265,13 @@ void ElectrodePlacement::ElectrodePlacementsDict::buildDevicePositionDict()
     currentElectrodePlacement.clear();
     currentElectrodePlacement.resize(20);
 
-    setupEnobio20Standard();
+    setupicognos20Standard();
     buildDevicePositionDict(ConfigE20Std);
 
-    //setupEnobio20BipolarLongitudinal();
+    //setupicognos20BipolarLongitudinal();
     //buildDevicePositionDict(ConfigE20BipLong);
 
-    //setupEnobio20BipolarTransversal();
+    //setupicognos20BipolarTransversal();
     //buildDevicePositionDict(ConfigE20BipTrans);
 
     setEOGPlacement(true);
@@ -1279,7 +1279,7 @@ void ElectrodePlacement::ElectrodePlacementsDict::buildDevicePositionDict()
 
     currentElectrodePlacement.clear();
     currentElectrodePlacement.resize(32);
-    setupEnobio32();
+    setupicognos32();
     buildDevicePositionDict(ConfigE32);
 
     setEOGPlacement(true);

@@ -4,7 +4,7 @@
 /*!
  * \class StarStimRegister
  *
- * \brief This class implements a generic Enobio3G/StarStim configuration
+ * \brief This class implements a generic icognos3G/StarStim configuration
  * register.
  */
 class StarStimRegister

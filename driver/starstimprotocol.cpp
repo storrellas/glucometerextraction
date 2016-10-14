@@ -1,4 +1,4 @@
-#include "starstimprotocol.h"
+#include "icognosprotocol.h"
 
 // Qt Includes
 #include <QDebug>

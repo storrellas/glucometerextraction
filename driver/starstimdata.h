@@ -24,9 +24,9 @@
 
 
 /*!
- * \class StarStimData starstimdata.h
+ * \class StarStimData icognosdata.h
  *
- * \brief This class holds all the information from the Enobio3G/StarStim
+ * \brief This class holds all the information from the icognos3G/StarStim
  * beacon frames.
  */
 class StarstimData
@@ -95,17 +95,17 @@ public:
      * It returns whether the current StarStim data has information regarding
      * EEG.
      *
-     * \return True if EEG data is present in the current Enobio3G/StarStim
+     * \return True if EEG data is present in the current icognos3G/StarStim
      * data, false otherwise.
      */
     bool isEEGDataPresent(){ return _isEEGDataPresent; }
 
     /*!
-     * It returns whether the current Enobio3G/StarStim data has information
+     * It returns whether the current icognos3G/StarStim data has information
      * regarding EEG configuration registers.
      *
      * \return True if EEG configuration data is present in the current
-     * Enobio3G/StarStim data, false otherwise.
+     * icognos3G/StarStim data, false otherwise.
      */
     bool isRegConfigPresent(){ return _isRegConfigPresent; }
 
@@ -129,30 +129,30 @@ public:
 
 
     /*!
-     * It returns whether the current Enobio3G/StarStim data has information
+     * It returns whether the current icognos3G/StarStim data has information
      * regarding the Accelerometer.
      *
      * \return True if the data from the Accelerometer is present in the
-     * current Enobio3G/StarStim data, false otherwise.
+     * current icognos3G/StarStim data, false otherwise.
      */
     bool isAccelDataPresent(){ return _isAccelDataPresent; }
 
 
     /*!
-     * It returns whether the current Enobio3G/StarStim data has information
+     * It returns whether the current icognos3G/StarStim data has information
      * regarding the firmware version.
      *
      * \return True if the data from the firmware version is present in the
-     * current Enobio3G/StarStim data, false otherwise.
+     * current icognos3G/StarStim data, false otherwise.
      */
     bool isFirmwareVersionPresent(){ return _isFirmwareVersionPresent; }
 
     /*!
-     * It returns whether the current Enobio3G/StarStim data has information
+     * It returns whether the current icognos3G/StarStim data has information
      * regarding the battery charging level.
      *
      * \return True if the data from the battery is present in the current
-     * Enobio3G/StarStim data, false otherwise.
+     * icognos3G/StarStim data, false otherwise.
      */
     bool isProfilePresent(){ return _isProfilePresent; }
 
@@ -204,7 +204,7 @@ public:
 
     /*!
      * It returns the start address of the EEG configuration registers that are
-     * send in the Enobio3G/StarStim beacon frame.
+     * send in the icognos3G/StarStim beacon frame.
      *
      * \return EEG start address byte.
      */
@@ -212,19 +212,19 @@ public:
 
     /*!
      * It returns the number of EEG configuration registers that are sent in
-     * the Enobio3G/StarStim beacon frame.
+     * the icognos3G/StarStim beacon frame.
      *
-     * \return Number of EEG configuration registers in the Enobio3G/StarStim
+     * \return Number of EEG configuration registers in the icognos3G/StarStim
      * beacon frame.
      */
     unsigned char eegNumRegs(){ return _eegNumRegs; }
 
     /*!
      * It returns the pointer to the EEG configuration registers that are sent
-     * in the Enobio3G/StarStim beacon frame.
+     * in the icognos3G/StarStim beacon frame.
      *
      * \return Pointer to the EEG configuration registers in the
-     * Enobio3G/StarStim beacon frame.
+     * icognos3G/StarStim beacon frame.
      */
     unsigned char * confReg(){ return _confReg; }
 
@@ -271,26 +271,26 @@ public:
     unsigned char * stimReg(){ return _stimReg; }
 
     /*!
-     * It returns the acceleroemter value sent in the Enobio3G/StarStim beacon
+     * It returns the acceleroemter value sent in the icognos3G/StarStim beacon
      * frame.
      *
-     * \return Acceleremoter value in the Enobio3G/StarStim beacon frame.
+     * \return Acceleremoter value in the icognos3G/StarStim beacon frame.
      */
     ChannelData & accelerometer(){ return _accelerometer; }
 
     /*!
-     * It returns the firmware version value sent in the Enobio3G/StarStim beacon
+     * It returns the firmware version value sent in the icognos3G/StarStim beacon
      * frame.
      *
-     * \return firmwareVersion value in the Enobio3G/StarStim beacon frame.
+     * \return firmwareVersion value in the icognos3G/StarStim beacon frame.
      */
     int firmwareVersion(){ return _firmwareVersion; }
 
     /*!
-     * It returns the battery value sent in the Enobio3G/StarStim beacon
+     * It returns the battery value sent in the icognos3G/StarStim beacon
      * frame.
      *
-     * \return Battery value in the Enobio3G/StarStim beacon frame.
+     * \return Battery value in the icognos3G/StarStim beacon frame.
      */
     unsigned int battery(){ return _battery; }
 
@@ -349,7 +349,7 @@ public:
     void deviceError(int deviceError){ _deviceError = deviceError; }
 
     /*!
-     * It sets whether the current Enobio3G/StarStim beacon frame has toggled
+     * It sets whether the current icognos3G/StarStim beacon frame has toggled
      * the acknowledge command bit.
      *
      * \param status True if the acknowledge command bit is toggled, false
@@ -365,7 +365,7 @@ public:
     void isSDCardRecording(bool status);
 
     /*!
-     * It sets whether the EEG data is present in the current Enobio3G/StarStim
+     * It sets whether the EEG data is present in the current icognos3G/StarStim
      * beacon frame.
      *
      * \param status True if the EEG data is present, false otherwise.
@@ -374,7 +374,7 @@ public:
 
     /*!
      * It sets whether the EEG configuration data is present in the current
-     * Enobio3G/StarStim beacon frame.
+     * icognos3G/StarStim beacon frame.
      *
      * \param status True if the EEG configuration data is present, false
      * otherwise.
@@ -400,7 +400,7 @@ public:
 
     /*!
      * It sets whether the accelerometer data is present in the current
-     * Enobio3G/StarStim beacon frame.
+     * icognos3G/StarStim beacon frame.
      *
      * \param status True if the accelerometer data is present, false
      * otherwise.
@@ -410,7 +410,7 @@ public:
 
     /*!
      * It sets whether the firmware version data is present in the current
-     * Enobio3G/StarStim beacon frame.
+     * icognos3G/StarStim beacon frame.
      *
      * \param status True if the firmware version data is present, false
      * otherwise.
@@ -419,7 +419,7 @@ public:
 
     /*!
      * It sets whether the battery data is present in the current
-     * Enobio3G/StarStim beacon frame.
+     * icognos3G/StarStim beacon frame.
      *
      * \param status True if the battery data is present, false otherwise.
      */
@@ -427,7 +427,7 @@ public:
 
     /*!
      * It sets whether the EEG data from an specific channel is present in the
-     * Enobio3G/StarStim beacon frame.
+     * icognos3G/StarStim beacon frame.
      *
      * \param index Zero-based index of the channel which its presence status
      * is set.
@@ -497,7 +497,7 @@ public:
 
     /*!
      * It sets the start address of the EEG configuration registers that are
-     * present in the Enobio3G/StarStim beacon frame.
+     * present in the icognos3G/StarStim beacon frame.
      *
      * \param startAddress The EEG start address.
      */
@@ -505,7 +505,7 @@ public:
 
     /*!
      * It sets the number of EEG configuration registers that are present in
-     * the Enobio3G/StarStim beacon frame.
+     * the icognos3G/StarStim beacon frame.
      *
      * \param numRegs The number of EEG configuration registers.
      */
@@ -513,7 +513,7 @@ public:
 
     /*!
      * It sets the value of the EEG configuration registers that are present in
-     * the Enobio3G/StarStim beacon frame.
+     * the icognos3G/StarStim beacon frame.
      *
      * \param address The EEG register address.
      *
@@ -581,7 +581,7 @@ public:
 
     /*!
      * It sets the value of the accelerometer data that is present in the
-     * Enobio3G/StarStim beacon frame.
+     * icognos3G/StarStim beacon frame.
      *
      * \param index The index of the 3-dimension vector
      *
@@ -591,7 +591,7 @@ public:
 
     /*!
      * It sets the value of the firmware version data that is present in the
-     * Enobio3G/StarStim firmware version frame.
+     * icognos3G/StarStim firmware version frame.
      *
      * \param value The firmwareVersion value.
      */
@@ -599,7 +599,7 @@ public:
 
     /*!
      * It sets the value of the battery data that is present in the
-     * Enobio3G/StarStim beacon frame.
+     * icognos3G/StarStim beacon frame.
      *
      * \param value The battery value.
      */

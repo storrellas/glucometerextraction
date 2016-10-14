@@ -16,7 +16,7 @@
  * \class WifiDevice wifidevice.h
  *
  * \brief This class implements the driver that communicates with the
- * Enobio3G/StarStim device through the Wifi/TCP protocol.
+ * icognos3G/StarStim device through the Wifi/TCP protocol.
  */
 class WifiDevice : public QObject
 {
@@ -129,7 +129,7 @@ public:
 private:
 
     /*!
-     * \brief _socketStarstimThread socket used to run the _starstimSocket
+     * \brief _socketStarstimThread socket used to run the _icognosSocket
      * This is necessary since polling operations are not permited in QTcpSocket
      * If polling operations are required you should use QEventLoop
      * See here: https://www.qtdeveloperdays.com/2013/sites/default/files/presentation_pdf/Qt_Event_Loop.pdf
@@ -140,9 +140,9 @@ private:
     // Reading variables
 public:
     /*!
-     * \brief starstimSocket socket to connect to starstim
+     * \brief icognosSocket socket to connect to icognos
      */
-    QTcpSocket* _starstimSocket;
+    QTcpSocket* _icognosSocket;
 
     /*!
      * \brief mutex mutex used to communicate thread accross _readArray variable.
@@ -164,7 +164,7 @@ public:
 
 signals:
     /*!
-     * \brief writeToSocket this signal is used to indicate to _starstimSocket, which
+     * \brief writeToSocket this signal is used to indicate to _icognosSocket, which
      * lives in an _socketStarstimThread thread, that array needs to be written
      * \param array
      */
@@ -172,7 +172,7 @@ signals:
 
 public slots:
     /*!
-     * \brief writeToSocket this signal is used to indicate to _starstimSocket, which
+     * \brief writeToSocket this signal is used to indicate to _icognosSocket, which
      * lives in an _socketStarstimThread thread, that array needs to be written
      * \param array
      */

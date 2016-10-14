@@ -5,7 +5,7 @@
  #include "bluetooth/WinBluetoothAPI.h"
  #else
  #ifdef Q_OS_MACX
-  #include "bluetooth/starstimOsxBT_Prefix.pch"
+  #include "bluetooth/icognosOsxBT_Prefix.pch"
  #else
   #include "bluetooth/BluezBluetoothAPI.h"
  #endif

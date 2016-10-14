@@ -1,4 +1,4 @@
-#include "starstimregister.h"
+#include "icognosregister.h"
 
 StarStimRegister::StarStimRegister() : _updated(false), _value(0)
 {

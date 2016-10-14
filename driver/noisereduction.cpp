@@ -374,7 +374,7 @@ void read_matrix_from_var(double *localmatrix, double **matrix, uint32_t block_l
 #ifdef __DEBUGARTIFACTENOBIO20__
 #include <QFile>
 #include <QDateTime>
-QFile _debugArtifactEnobio20File;
+QFile _debugArtifacticognos20File;
 #endif
 
 NoiseReduction::NoiseReduction ()
@@ -414,9 +414,9 @@ NoiseReduction::NoiseReduction ()
     _noiseState = EVALUATING_NOISE_FREQUENCY;
 
 #ifdef __DEBUGARTIFACTENOBIO20__
-    _debugArtifactEnobio20File.setFileName(QDateTime::currentDateTime().toString("yyyyMMddhhmss") +
+    _debugArtifacticognos20File.setFileName(QDateTime::currentDateTime().toString("yyyyMMddhhmss") +
                                            "_debugArtifact_preNoise.txt");
-    _debugArtifactEnobio20File.open(QIODevice::WriteOnly | QIODevice::Text);
+    _debugArtifacticognos20File.open(QIODevice::WriteOnly | QIODevice::Text);
 #endif
 
 }
@@ -432,7 +432,7 @@ NoiseReduction::~NoiseReduction()
     free(svec);
 
 #ifdef __DEBUGARTIFACTENOBIO20__
-    _debugArtifactEnobio20File.close();
+    _debugArtifacticognos20File.close();
 #endif
 }
 
@@ -446,7 +446,7 @@ ChannelData NoiseReduction::denoiseSample(ChannelData data)
         strSample.append(QString::number(data.data()[i]) + "\t");
     }
     strSample.append(QString::number(data.timestamp())+ "\n");
-    _debugArtifactEnobio20File.write(strSample.toAscii());
+    _debugArtifacticognos20File.write(strSample.toAscii());
 #endif
 
 

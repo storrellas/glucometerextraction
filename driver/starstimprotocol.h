@@ -1,14 +1,14 @@
 #ifndef STARSTIMPROTOCOL_H
 #define STARSTIMPROTOCOL_H
 
-#include "starstimdata.h"
+#include "icognosdata.h"
 
 /*!
- * \class StarStimProtocol starstimprotocol.h
+ * \class StarStimProtocol icognosprotocol.h
  *
- * \brief This the class implements the Enobio3G/StarStim protocol, so it
+ * \brief This the class implements the icognos3G/StarStim protocol, so it
  * provides the mechanism to parse the messages received from the
- * Enobio3G/StarStim device as well as to build messsages to be sent to it.
+ * icognos3G/StarStim device as well as to build messsages to be sent to it.
  */
 class StarStimProtocol
 {
@@ -50,7 +50,7 @@ public:
     void reset ();
 
     /*!
-     *It builds an Enobio3G/StarStim frame request for starting the EEG
+     *It builds an icognos3G/StarStim frame request for starting the EEG
      *streaming.
      *
      * \return Byte array that contains the request.
@@ -58,7 +58,7 @@ public:
     static QByteArray buildStartEEGFrame ();
 
     /*!
-     *It builds an Enobio3G/ StarStim frame request for stopping the EEG
+     *It builds an icognos3G/ StarStim frame request for stopping the EEG
      *streaming.
      *
      * \return Byte array that contains the request.
@@ -96,7 +96,7 @@ public:
     static QByteArray buildStopImpedanceFrame ();
 
     /*!
-     * It builds an Enobio3G/StarStim frame request for writing a EEG
+     * It builds an icognos3G/StarStim frame request for writing a EEG
      * configuration register.
      *
      * \param address Address of the EEG register.
@@ -112,7 +112,7 @@ public:
                                                   int length);
 
     /*!
-     * It builds an Enobio3G/StarStim frame request for reading a EEG
+     * It builds an icognos3G/StarStim frame request for reading a EEG
      * configuration register.
      *
      * \param address Address of the EEG register.
@@ -124,7 +124,7 @@ public:
     static QByteArray buildReadRegisterFrame (int address, int length = 1);
 
     /*!
-     * It builds an Enobio3G/StarStim frame request for the battery
+     * It builds an icognos3G/StarStim frame request for the battery
      * measurement.
      *
      * \return Byte array that contains the request.
@@ -132,7 +132,7 @@ public:
     static QByteArray buildProfileRequest ();
 
     /*!
-     * It builds an Enobio3G/StarStim frame request for keeping the
+     * It builds an icognos3G/StarStim frame request for keeping the
      * communication alive.
      *
      * \return Byte array that contains the request.
@@ -140,7 +140,7 @@ public:
     static QByteArray buildNullRequest ();
 
     /*!
-     * It builds an Enobio3G/StartStim frame that requests starting the sending
+     * It builds an icognos3G/StartStim frame that requests starting the sending
      * of beacons.
      *
      * \return Byte array that contains the request.
@@ -148,7 +148,7 @@ public:
     static QByteArray buildStartBeaconRequest ();
 
     /*!
-     * It builds an Enobio3G/StartStim frame that requests stopping the sending
+     * It builds an icognos3G/StartStim frame that requests stopping the sending
      * of beacons.
      *
      * \return Byte array that contains the request.
@@ -156,7 +156,7 @@ public:
     static QByteArray buildStopBeaconRequest ();
 
     /*!
-     * It builds an Enobio3G/StartStim frame that requests the device to enter in bootloader mode
+     * It builds an icognos3G/StartStim frame that requests the device to enter in bootloader mode
      *
      * \param nPages number of pages that shape the bootloader
      *
@@ -165,7 +165,7 @@ public:
     static QByteArray buildBootloaderModeRequest(int nPages);
 
     /*!
-     * It builds an Enobio3G/StartStim frame that downloads the calibration paramters for the stimulation
+     * It builds an icognos3G/StartStim frame that downloads the calibration paramters for the stimulation
      *
      * \param nPages number of pages that shape the bootloader
      *
@@ -216,7 +216,7 @@ public:
     static const int EFD_2;
 
     /*!
-     * It sets the firmware version of the Enobio3G/StartStim.
+     * It sets the firmware version of the icognos3G/StartStim.
      *
      * \param firmwareVersion.
      */

@@ -16,8 +16,8 @@
 // Project includes
 #include "commonparameters.h"
 #include "wifidevice.h"
-#include "starstimprotocol.h"
-#include "starstimregister.h"
+#include "icognosprotocol.h"
+#include "icognosregister.h"
 #include "devicemanagertypes.h"
 #include "fw/eeg_mgr.h"
 #include "fw/stim_mgr.h"
@@ -147,7 +147,7 @@ private:
      * \property DeviceManager::_device
      *
      * Instance of the Wifi device to communicate with the
-     * Enobio3G/StarStim device.
+     * icognos3G/StarStim device.
      */
     WifiDevice* _wifiDevice;
 
@@ -155,7 +155,7 @@ private:
     /*!
      * \property DeviceManager::_protocol
      *
-     * Parser of the Enobio3G/StarStim protocol.
+     * Parser of the icognos3G/StarStim protocol.
      */
     StarStimProtocol _protocol;
 
@@ -170,7 +170,7 @@ private:
     DeviceManagerTypes::DeviceStatus _deviceStatusStruct;
 
     /*!
-     * \brief _isStarstim Indicates whether the current device is an starstim
+     * \brief _isStarstim Indicates whether the current device is an icognos
      */
     DeviceManagerTypes::DeviceType _deviceType;
 
@@ -403,7 +403,7 @@ private:
      * It determines whether there is an instrument device at the other
      * side of the rfcomm connection.
      *
-     * \return True if an Enobio3G/StarStim device is detected , false
+     * \return True if an icognos3G/StarStim device is detected , false
      * otherwise.
      */
     bool _lookForStarStim ();
@@ -491,7 +491,7 @@ signals:
                          int batteryLevel, int firmwareVersion, int t1, int t2);
 
     /*!
-     * Signal that is emitted whenever the Enobio3G/StarStim device status
+     * Signal that is emitted whenever the icognos3G/StarStim device status
      * changes.
      *
      * \param deviceStatus

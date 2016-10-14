@@ -1,5 +1,5 @@
 /*!
- * \file enobioMacBTLib_prefix.pch
+ * \file icognosMacBTLib_prefix.pch
  *
  * \author Anton Albajes-Eizagirre
  * \date 17/04/2012
@@ -17,7 +17,7 @@
 #define __MACBLUETOOTHAPI__
 
 //
-// Prefix header for all source files of the 'enobioMacBTLib' target in the 'enobioMacBTLib' project.
+// Prefix header for all source files of the 'icognosMacBTLib' target in the 'icognosMacBTLib' project.
 //
 
 #ifndef BLUETOOTH_MAX_NAME_SIZE

@@ -79,7 +79,7 @@ private:
     Ui::MainWindow *ui;
 
     /*!
-     * \brief _monitorThread thread executing all the instruction for monitoring enobio
+     * \brief _monitorThread thread executing all the instruction for monitoring icognos
      */
     QThread* monitorThread;
 
@@ -249,7 +249,7 @@ private slots:
     // Slots for device configuration operations
 
     /*!
-     * \brief on_searchStarstimBtn_clicked searches starstim by means of the UDP protocol
+     * \brief on_searchStarstimBtn_clicked searches icognos by means of the UDP protocol
      */
     void on_searchStarstimBtn_clicked();
 

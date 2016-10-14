@@ -35,10 +35,10 @@ HEADERS  += src/mainwindow.h \
     devicemanager/sleeper.h
 
 
-HEADERS += devicemanager/starstimprotocol.h \
-           devicemanager/starstimdata.h \
+HEADERS += devicemanager/icognosprotocol.h \
+           devicemanager/icognosdata.h \
            devicemanager/devicemanager.h \
-           devicemanager/starstimcom.h \
+           devicemanager/icognoscom.h \
            devicemanager/devicemanagertypes.h \
            devicemanager/fw/accel_mgr.h \
            devicemanager/fw/sdcard_mgr.h \
@@ -63,10 +63,10 @@ SOURCES += src/main.cpp\
            src/devicestatus.cpp \
 
 
-SOURCES += devicemanager/starstimprotocol.cpp \
-           devicemanager/starstimdata.cpp \
+SOURCES += devicemanager/icognosprotocol.cpp \
+           devicemanager/icognosdata.cpp \
            devicemanager/devicemanager.cpp \
-           devicemanager/starstimcom.cpp \
+           devicemanager/icognoscom.cpp \
            devicemanager/deviceconfiguration.cpp \
            devicemanager/wifidevice.cpp
 

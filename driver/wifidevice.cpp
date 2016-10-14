@@ -5,10 +5,10 @@ WifiDevice::WifiDevice(QObject *parent) :
 {
 
     // Configure sockets
-    _starstimSocket = new QTcpSocket( this );
+    _icognosSocket = new QTcpSocket( this );
 /*
-    connect( _starstimSocket, SIGNAL(readyRead()), SLOT(readyRead()) );
-    connect( _starstimSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(error(QAbstractSocket::SocketError)));
+    connect( _icognosSocket, SIGNAL(readyRead()), SLOT(readyRead()) );
+    connect( _icognosSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(error(QAbstractSocket::SocketError)));
 
     connect( this, SIGNAL(writeToSocket(QByteArray)), SLOT(onWriteToSocket(QByteArray)) );
 
@@ -32,12 +32,12 @@ WifiDevice::errType WifiDevice::open (const char * host, int port){
     loggerMacroDebug("IP from QString " + hostStr)
 
     // Connect to the specified host
-    _starstimSocket->connectToHost(hostStr, port);
+    _icognosSocket->connectToHost(hostStr, port);
 
     loggerMacroDebug("Connected!")
 
     // Wait for the connection of the socket
-    if( _starstimSocket->waitForConnected() ){
+    if( _icognosSocket->waitForConnected() ){
         loggerMacroDebug("Socket is connected! :)")
         return ERR_NO_ERROR;
     }else{
@@ -45,15 +45,15 @@ WifiDevice::errType WifiDevice::open (const char * host, int port){
         return ERR_DEVICE_NOT_CONNECTED;
     }
 
-//    // Remove parent from _starstimSocket
-//    _starstimSocket->setParent(0);
-//    _starstimSocket->moveToThread(_socketStarstimThread);
+//    // Remove parent from _icognosSocket
+//    _icognosSocket->setParent(0);
+//    _icognosSocket->moveToThread(_socketStarstimThread);
 
 
 }
 
 WifiDevice::errType WifiDevice::close (){
-    _starstimSocket->close();
+    _icognosSocket->close();
     return ERR_NO_ERROR;
 }
 
@@ -102,22 +102,22 @@ int WifiDevice::read (char * buffer, unsigned long numBytes){
 /**/
 
     static int n_read_static = 0;
-    //if( _starstimSocket->bytesAvailable() == 0 ) return 0;
+    //if( _icognosSocket->bytesAvailable() == 0 ) return 0;
 /*
     timer = new QTimer();
     QEventLoop loop;
-    connect(_starstimSocket, SIGNAL(readyRead()), &loop, SLOT(quit()));
+    connect(_icognosSocket, SIGNAL(readyRead()), &loop, SLOT(quit()));
     connect(timer, SIGNAL(timeout()), &loop, SLOT(quit()));
     timer->start(100);
     loop.exec();
     timer->stop();
 /**/
 
-    bool available = _starstimSocket->waitForReadyRead(100);
+    bool available = _icognosSocket->waitForReadyRead(100);
     if ( !available ) return 0;
 
 
-    int n_read = _starstimSocket->read(buffer, numBytes);
+    int n_read = _icognosSocket->read(buffer, numBytes);
     n_read_static += n_read;
     //loggerMacroDebug("Total number of read bytes " + QString::number(n_read_static) + " bytes")
 
@@ -138,10 +138,10 @@ int WifiDevice::write (const char * buffer, unsigned long numBytes){
 
     static int n_write_static = 0;
     // Write to socket
-    qint64 n_write = _starstimSocket->write(buffer, numBytes);
-    _starstimSocket->flush();
+    qint64 n_write = _icognosSocket->write(buffer, numBytes);
+    _icognosSocket->flush();
     // Wait until all bytes are written to host
-    _starstimSocket->waitForBytesWritten(-1);
+    _icognosSocket->waitForBytesWritten(-1);
     n_write_static += n_write;
     //loggerMacroDebug("Total number of write bytes " + QString::number(n_write_static) + " bytes")
 
@@ -151,8 +151,8 @@ int WifiDevice::write (const char * buffer, unsigned long numBytes){
 
 void WifiDevice::onWriteToSocket(QByteArray array){
     //loggerMacroDebug("Write to socket")
-    _starstimSocket->write(array);
-    _starstimSocket->flush();
+    _icognosSocket->write(array);
+    _icognosSocket->flush();
 }
 
 qint64 WifiDevice::pendingBytesOnReading ()
@@ -164,7 +164,7 @@ qint64 WifiDevice::pendingBytesOnReading ()
 void WifiDevice::readyRead(){
     mutex.lock();
 
-    _readArray.append( _starstimSocket->readAll() );
+    _readArray.append( _icognosSocket->readAll() );
 //    loggerMacroDebug("Read bytes " + QString::number(_readArray.size()))
 //    loggerMacroDebug("Current Thread->")
 //    qDebug() << QThread::currentThreadId();

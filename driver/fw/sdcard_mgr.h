@@ -18,7 +18,7 @@
 /*                Spain                                                      */
 /*                Phone +34 93 254 03 66 / dir.70                            */
 /*                Fax   +34 93 212 64 45                                     */
-/*                sergi.torrellas@neuroelectrics.com                         */
+/*                sergi.torrellas@icognos.com                         */
 /*                                                                           */
 /* --------------------------------------------------------------------------*/
 /* revision list                                                             */

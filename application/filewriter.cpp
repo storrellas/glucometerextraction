@@ -3,7 +3,7 @@
 #include <QTextStream>
 
 #include "filewriter.h"
-#include "EnobioData.h"
+#include "icognosData.h"
 
 
 

@@ -1,17 +1,17 @@
 #ifndef ENOBIODATA_H
 #define ENOBIODATA_H
 
-//#include "EnobioAPI_global.h"
+//#include "icognosAPI_global.h"
 
-/*! \class EnobioData EnobioData.h
+/*! \class icognosData icognosData.h
  *
- * \brief This class encapsulates an Enobio data sample.
+ * \brief This class encapsulates an icognos data sample.
  *
- * An Enobio data sample consists on 4 data channels, two flags with some meta
+ * An icognos data sample consists on 4 data channels, two flags with some meta
  * data information and a timestamp
  */
 
-class /*ENOBIOAPISHARED_EXPORT*/ EnobioData {
+class /*ENOBIOAPISHARED_EXPORT*/ icognosData {
 public:
 
     /*!
@@ -111,14 +111,14 @@ public:
     };
 
     /*!
-     * \var EnobioData::NUMBER_OF_CHANNELS
+     * \var icognosData::NUMBER_OF_CHANNELS
      *
-     * The Number of data channels that Enobio provides.
+     * The Number of data channels that icognos provides.
      */
     static const int NUMBER_OF_CHANNELS = 4;
 
     /*!
-     * Constructor of an EnobioData object
+     * Constructor of an icognosData object
      *
      * \param dataCh1 Channel 1 data value.
      *
@@ -129,7 +129,7 @@ public:
      * \param dataCh4 Channel 4 data value.
      *
      * \param flag Flag that informs about the consideration that has to be
-     * taken regarding the current Enobio sample.
+     * taken regarding the current icognos sample.
      *
      * \param offsetChangeIndex It indicates how many samples earlier the
      * offset change happened.
@@ -138,7 +138,7 @@ public:
      * corresponds to the number of microseconds since 1970-01-01T00:00:00
      * Universal Coordinated Time.
      */
-    EnobioData (int dataCh1, int dataCh2, int dataCh3, int dataCh4,
+    icognosData (int dataCh1, int dataCh2, int dataCh3, int dataCh4,
                 flagValue flag, unsigned char offsetChangeIndex,
                 long long timestamp) {};
 
@@ -202,7 +202,7 @@ public:
      * It gets the value of a specific channel.
      *
      * \param channel Number of the requested channel. It shall be a number
-     * from 1 to EnobioData::NUMBER_OF_CHANNELS.
+     * from 1 to icognosData::NUMBER_OF_CHANNELS.
      *
      * \return Value of the data of the requested channel.
      */
@@ -218,7 +218,7 @@ public:
     void setDataToChannel (double data, unsigned char channel) {};
 
     /*!
-     * It gets the flag of the current Enobio data sample.
+     * It gets the flag of the current icognos data sample.
      *
      * \return It returns a value from the flagValue enumeration.
      */
@@ -233,7 +233,7 @@ public:
     unsigned char getOffsetChangeIndex () const {return 0;};
 
     /*!
-     * It gets the timestamp of the current Enobio sample.
+     * It gets the timestamp of the current icognos sample.
      *
      * \return It returns the the number of microseconds since
      * 1970-01-01T00:00:00 Universal Coordinated Time.

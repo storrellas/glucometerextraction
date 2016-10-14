@@ -4,7 +4,7 @@
 /*!
  * \class ChannelData
  * ..
- * \brief This class holds an Enobio3G/StarStim sample which consists on an
+ * \brief This class holds an icognos3G/StarStim sample which consists on an
  * integer value for each channel and an extra value that informs about the
  * channels that are reported in that sample.
  */

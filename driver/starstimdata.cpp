@@ -1,4 +1,4 @@
-#include "starstimdata.h"
+#include "icognosdata.h"
 
 
 const int StarstimData::NumEEGConfigReg           = EEG_NUM_REGS;

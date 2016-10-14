@@ -191,7 +191,7 @@ private:
     // ------------------------------
 
     /*!
-     * A reference to the Enobio engine
+     * A reference to the icognos engine
      */
     DeviceManager* _device;
     

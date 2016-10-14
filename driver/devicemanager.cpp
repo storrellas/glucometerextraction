@@ -6,7 +6,7 @@ DeviceManager::DeviceManager(QObject *parent) :
     QObject(parent)
 {
     // Create objects
-    _starstimCom = new StarstimCom(this);
+    _icognosCom = new StarstimCom(this);
 
 
     qRegisterMetaType<DeviceManagerTypes::StarstimRegisterFamily>("DeviceManagerTypes::StarstimRegisterFamily");
@@ -17,21 +17,21 @@ DeviceManager::DeviceManager(QObject *parent) :
 
 
     // Signal notifiers
-    connect(_starstimCom, SIGNAL(receivedFirmwareVersion(int)),                           this, SIGNAL(receivedFirmwareVersion(int)));
-    connect(_starstimCom, SIGNAL(receivedProfile(DeviceManagerTypes::DeviceType,int,int,int,int,int)),
+    connect(_icognosCom, SIGNAL(receivedFirmwareVersion(int)),                           this, SIGNAL(receivedFirmwareVersion(int)));
+    connect(_icognosCom, SIGNAL(receivedProfile(DeviceManagerTypes::DeviceType,int,int,int,int,int)),
             this,         SIGNAL(receivedProfile(DeviceManagerTypes::DeviceType,int,int,int,int,int)));
-    connect(_starstimCom, SIGNAL(receivedEEGData(ChannelData)),                           this, SIGNAL(receivedEEGData(ChannelData)));
-    connect(_starstimCom, SIGNAL(receivedAccelData(ChannelData)),                         this, SIGNAL(receivedAccelData(ChannelData)));
-    connect(_starstimCom, SIGNAL(receivedStimulationData(ChannelData)),                   this, SIGNAL(receivedStimulationData(ChannelData)));
-    connect(_starstimCom, SIGNAL(receivedDeviceStatus(DeviceManagerTypes::DeviceStatus)), this, SIGNAL(receivedDeviceStatus(DeviceManagerTypes::DeviceStatus)));
-    connect(_starstimCom, SIGNAL(receivedImpedanceData(ChannelData)),                     this, SIGNAL(receivedImpedanceData(ChannelData)));
+    connect(_icognosCom, SIGNAL(receivedEEGData(ChannelData)),                           this, SIGNAL(receivedEEGData(ChannelData)));
+    connect(_icognosCom, SIGNAL(receivedAccelData(ChannelData)),                         this, SIGNAL(receivedAccelData(ChannelData)));
+    connect(_icognosCom, SIGNAL(receivedStimulationData(ChannelData)),                   this, SIGNAL(receivedStimulationData(ChannelData)));
+    connect(_icognosCom, SIGNAL(receivedDeviceStatus(DeviceManagerTypes::DeviceStatus)), this, SIGNAL(receivedDeviceStatus(DeviceManagerTypes::DeviceStatus)));
+    connect(_icognosCom, SIGNAL(receivedImpedanceData(ChannelData)),                     this, SIGNAL(receivedImpedanceData(ChannelData)));
 
 }
 
 
 DeviceManager::~DeviceManager(){
     // Terminate the polling thread
-    _starstimCom->stopPollThread();
+    _icognosCom->stopPollThread();
 }
 
 /////////////////////////////////////
@@ -41,7 +41,7 @@ DeviceManager::~DeviceManager(){
 bool DeviceManager::openDevice(const char * ipAddress, int port)
 {
     // Open the device
-    bool res = _starstimCom->openDevice(ipAddress, port);
+    bool res = _icognosCom->openDevice(ipAddress, port);
     if( !res ){
         loggerMacroDebug("Error while opening")
         return res;
@@ -55,7 +55,7 @@ bool DeviceManager::openDevice(const char * ipAddress, int port)
     profileRequest();
 
 #ifdef ENABLE_NULL_REQUEST
-    if (_starstimCom->getDeviceType() == DeviceManagerTypes::STARSTIM) {
+    if (_icognosCom->getDeviceType() == DeviceManagerTypes::STARSTIM) {
         connect(&_nullRequestTimer, SIGNAL(timeout()),
                     this, SLOT(nullRequest()) );
         _nullRequestTimer.start(5000);
@@ -74,7 +74,7 @@ bool DeviceManager::openDevice(const char * ipAddress, int port)
 bool DeviceManager::closeDevice (){
 
 #ifdef ENABLE_NULL_REQUEST
-    if (_starstimCom->getDeviceType() == DeviceManagerTypes::STARSTIM) {
+    if (_icognosCom->getDeviceType() == DeviceManagerTypes::STARSTIM) {
         disconnect(&_nullRequestTimer, SIGNAL(timeout()),
                     this, SLOT(nullRequest()) );
         _nullRequestTimer.stop();
@@ -85,7 +85,7 @@ bool DeviceManager::closeDevice (){
                 this, SLOT(profileRequest()) );
     _profileRequestTimer.stop();
 
-    return _starstimCom->closeDevice();
+    return _icognosCom->closeDevice();
 }
 
 
@@ -102,9 +102,9 @@ void DeviceManager::initRegisters( bool partialInit ){
     loggerMacroDebug("Launching initRegisters for " +  deviceType2String() + " with partialInit:" + QString(partialInit?"TRUE":"FALSE"))
 
     // Configure EEG Registers for ENOBIO
-    if ( _starstimCom->getDeviceType() == DeviceManagerTypes::ENOBIO)
+    if ( _icognosCom->getDeviceType() == DeviceManagerTypes::ENOBIO)
     {
-        loggerMacroDebug("Initialising Registers for Enobio")
+        loggerMacroDebug("Initialising Registers for icognos")
 
         // Configure INITIAL
         regArray.clear();
@@ -121,7 +121,7 @@ void DeviceManager::initRegisters( bool partialInit ){
     }
 
     // Configure EEG Registers for STARSTIM
-    if( _starstimCom->getDeviceType() == DeviceManagerTypes::STARSTIM ){
+    if( _icognosCom->getDeviceType() == DeviceManagerTypes::STARSTIM ){
 
         loggerMacroDebug("Initialising Registers for Starstim")
 
@@ -150,7 +150,7 @@ void DeviceManager::initRegisters( bool partialInit ){
     }
 
 
-    // Configure EEG Registers - both Starstim/Enobio
+    // Configure EEG Registers - both Starstim/icognos
     if ( partialInit == false ){
 
         // Configure LOFF and CHANNEL
@@ -289,7 +289,7 @@ bool DeviceManager::requestSync(DeviceManagerTypes::StarstimRequest request_type
     }
 
     loggerMacroDebug("Perform a request ")
-    bool result = _starstimCom->request(request_type, family, address, frame);
+    bool result = _icognosCom->request(request_type, family, address, frame);
     if( result == false ){
         loggerMacroDebug("Request was not completed")
         return false;
@@ -299,7 +299,7 @@ bool DeviceManager::requestSync(DeviceManagerTypes::StarstimRequest request_type
     if( request_type == DeviceManagerTypes::READ_REGISTER_REQUEST ){
         frame.clear();
         for(int i = 0; i < length; i++){
-            frame.append( (0xFF & _starstimCom->_regContent[i]) );
+            frame.append( (0xFF & _icognosCom->_regContent[i]) );
         }
     }
 
@@ -311,7 +311,7 @@ bool DeviceManager::requestSync(DeviceManagerTypes::StarstimRequest request_type
 
 
     loggerMacroDebug("Perform a request")
-    bool result = _starstimCom->request(request_type);
+    bool result = _icognosCom->request(request_type);
     if( result == false ){
         loggerMacroDebug("Request was not completed")
         return false;
@@ -337,7 +337,7 @@ void DeviceManager::setSampleRate(DeviceManagerTypes::SampleRate sampleRate){
     }
 
     // Indicate to Starstimcom
-    _starstimCom->setSampleRate(sampleRate);
+    _icognosCom->setSampleRate(sampleRate);
 }
 
 /////////////////////////////////////
@@ -360,14 +360,14 @@ bool DeviceManager::startAccelerometer(){
     unsigned char REG_ACC=0x01;
     bool result;
     loggerMacroDebug("Starting accelerometer")
-    if( _starstimCom->getDeviceStatus().ACCEL == false )
+    if( _icognosCom->getDeviceStatus().ACCEL == false )
     {
         QByteArray regAccArray;
         regAccArray.append( (char) REG_ACC );
         result = writeRegister(DeviceManagerTypes::ACCEL_REGISTERS, 0x00, regAccArray);
 
         loggerMacroDebug("Result: " + QString(result?"TRUE":"FALSE"))
-        _starstimCom->setStreamingAccel(true);
+        _icognosCom->setStreamingAccel(true);
 
     }
     else
@@ -387,7 +387,7 @@ bool DeviceManager::stopAccelerometer(){
     bool result = writeRegister(DeviceManagerTypes::ACCEL_REGISTERS, 0x00, regAccArray);
 
     loggerMacroDebug("Result: " + QString(result?"TRUE":"FALSE"))
-    _starstimCom->setStreamingAccel(false);
+    _icognosCom->setStreamingAccel(false);
     return result;
 
 }

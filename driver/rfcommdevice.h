@@ -16,7 +16,7 @@
  * \class RFCOMMDevice rfcommdevice.h
  *
  * \brief This class implements the driver that communicates with the
- * Enobio3G/StarStim device through the Bluetooth rfcomm protocol.
+ * icognos3G/StarStim device through the Bluetooth rfcomm protocol.
  */
 class RFCOMMDevice : public QObject
 {

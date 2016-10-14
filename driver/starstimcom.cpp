@@ -1,4 +1,4 @@
-#include "starstimcom.h"
+#include "icognoscom.h"
 
 
 StarstimCom::StarstimCom(QObject* parent) :
@@ -43,7 +43,7 @@ bool StarstimCom::openDevice(const char * ipAddress, int port)
     _protocol.setMultipleSample( false );
     _protocol.setEEGCompressionType(StarStimProtocol::EEG_NO_COMPRESSION);
 
-    // Look for starstim
+    // Look for icognos
     bool isOpen = _lookForStarStim();
     _deviceStatusStruct.set( _deviceStatus, isOpen, false );
     if ( isOpen == false ){

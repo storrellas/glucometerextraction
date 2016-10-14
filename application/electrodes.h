@@ -86,7 +86,7 @@ namespace OldElectrode{
     typedef enum{Fpz = 0, Fp1, Fp2, AF7, AF8, F7, F3, Fz, F4, F8// = 9
                  , T7, C3, C1, Cz, C2, C4, T8, P7, P3, Pz // = 19
                  , P4, P8, PO7, PO8, O1, Oz, O2, EOG1, EOG2, ECG // = 29
-                 ,CH1, CH2, CH3, CH4, CH5, CH6, CH7, CH8 //Unknown setup of Enobio 8
+                 ,CH1, CH2, CH3, CH4, CH5, CH6, CH7, CH8 //Unknown setup of icognos 8
                 } OldElectrodePosEnum;
 }
 #define OLD_ELECTRODE_TOTAL 38 //This must match OldElectrodePosEnum total
@@ -122,7 +122,7 @@ namespace Electrode{
                  , C2,  C4,  T8, CP5, CP1, CP2, CP6, P7, P3, Pz // = 29 (Scalp positions)
                  , P4,  P8, PO7, PO3, PO4, PO8,  O1, Oz, O2 // = 38  (Scalp positions)
                  , EOG1, EOG2, ECG, EXT // = 42 Special positions
-                 , CH1, CH2, CH3, CH4, CH5, CH6, CH7, CH8 //Unknown setup of Enobio 8
+                 , CH1, CH2, CH3, CH4, CH5, CH6, CH7, CH8 //Unknown setup of icognos 8
                 } ElectrodePosEnum;
 }
 #define ELECTRODE_TOTAL 51 //This must match ElectrodePosEnum total
@@ -198,14 +198,14 @@ namespace ElectrodePosition{
 }
 
 typedef enum {SortedByScalp, SortedByName} ElectrodeSort;
-typedef enum {EnobioStd, E20BipolarLong, E20BipolarTrans} EnobioSetup;
+typedef enum {icognosStd, E20BipolarLong, E20BipolarTrans} icognosSetup;
 
 void            sortElectrodes(const ElectrodeSort sort);
 ElectrodeSort   currentSort();
 void            setDevice(DeviceType::SupportedNICDevice dev);
 DeviceType::SupportedNICDevice deviceType();
-void            setEnobioSetup(EnobioSetup s);
-EnobioSetup     currentEnobioSetup();
+void            seticognosSetup(icognosSetup s);
+icognosSetup     currenticognosSetup();
 //void  setupDevice(unsigned int eegChannels, unsigned int stimChannels = 0);
 unsigned int    deviceStimulationChannels();
 unsigned int    deviceEEGChannels();
@@ -239,8 +239,8 @@ const QVector<unsigned int>     getChannelIDs(unsigned int total);
 const QVector<QString> &        getPositionNames();
 const QVector<unsigned int>&    getPositionIDs();
 
-const QVector<QString> &        getPositionNames(DeviceType::SupportedNICDevice dev,/* EnobioSetup config = EnobioStd,*/ ElectrodeSort s = SortedByName, bool withEOG = false);
-const QVector<unsigned int>&    getPositionIDs(DeviceType::SupportedNICDevice dev,/* EnobioSetup config = EnobioStd,*/ ElectrodeSort s = SortedByName, bool withEOG = false);
+const QVector<QString> &        getPositionNames(DeviceType::SupportedNICDevice dev,/* icognosSetup config = icognosStd,*/ ElectrodeSort s = SortedByName, bool withEOG = false);
+const QVector<unsigned int>&    getPositionIDs(DeviceType::SupportedNICDevice dev,/* icognosSetup config = icognosStd,*/ ElectrodeSort s = SortedByName, bool withEOG = false);
 /*
 const QVector<QString> &        getBipolarLongitudinalNames();
 const QVector<unsigned int>&    getBipolarLongitudinalIDs();
@@ -252,7 +252,7 @@ const QVector<QString>          getPlacementNames();
 const QVector<unsigned int>&    getPlacementIDs();
 
 
-//Total number of EEG channels (Enobio currently supports up to 32)
+//Total number of EEG channels (icognos currently supports up to 32)
 const unsigned int maxEEGChannels = ElectrodeChannel::supportedChannels;
 //Total number of Stimulation channels (StarStim currently supports up to 8)
 const unsigned int maxStimChannels = NUM_STIM_CHANNELS; //defined in commmonparameters, might define here?
@@ -274,7 +274,7 @@ public:
         return _p;
     }
     /*
-    //Total number of EEG channels (Enobio currently supports up to 32)
+    //Total number of EEG channels (icognos currently supports up to 32)
     const static    unsigned int maxEEGChannels;
     //Total number of Stimulation channels (StarStim currently supports up to 8)
     const static    unsigned int maxStimChannels;
@@ -292,8 +292,8 @@ public:
 friend void             sortElectrodes(const ElectrodeSort sort);
 friend void             setDevice(DeviceType::SupportedNICDevice dev);
 friend DeviceType::SupportedNICDevice deviceType();
-friend void             setEnobioSetup(EnobioSetup s);
-friend EnobioSetup      currentEnobioSetup();
+friend void             seticognosSetup(icognosSetup s);
+friend icognosSetup      currenticognosSetup();
 //friend void     setupDevice(unsigned int eegChannels, unsigned int stimChannels);
 friend unsigned int     deviceStimulationChannels();
 friend unsigned int     deviceEEGChannels();
@@ -331,8 +331,8 @@ friend const QVector<unsigned int>  getChannelIDs(unsigned int total);
 friend const QVector<QString>&      getPositionNames();
 friend const QVector<unsigned int>& getPositionIDs();
 
-friend const QVector<QString>&      getPositionNames(DeviceType::SupportedNICDevice dev,/* EnobioSetup config,*/ ElectrodeSort s, bool withEOG);
-friend const QVector<unsigned int>& getPositionIDs(DeviceType::SupportedNICDevice dev,/* EnobioSetup config,*/ ElectrodeSort s, bool withEOG);
+friend const QVector<QString>&      getPositionNames(DeviceType::SupportedNICDevice dev,/* icognosSetup config,*/ ElectrodeSort s, bool withEOG);
+friend const QVector<unsigned int>& getPositionIDs(DeviceType::SupportedNICDevice dev,/* icognosSetup config,*/ ElectrodeSort s, bool withEOG);
 
 friend const QVector<QString>       getPlacementNames();
 friend const QVector<unsigned int>& getPlacementIDs();
@@ -360,8 +360,8 @@ private:
 ElectrodePlacement()
 {
     _dev = DeviceType::UNKNOWN;
-    _enobio20Setup = EnobioStd;
-    _edb.sortByName(_dev/*, _enobio20Setup*/, false);
+    _icognos20Setup = icognosStd;
+    _edb.sortByName(_dev/*, _icognos20Setup*/, false);
     /*
     _supportedEEGChannelCounts.append(8);//ENOBIO8
     _supportedEEGChannelCounts.append(18);//ENOBIO20 BIPOLAR
@@ -378,10 +378,10 @@ void    sortElectrodes(const ElectrodeSort sort);
 
 void    setupDevice(unsigned int eegChannels, unsigned int stimChannels = 0);
 
-void    setupEnobio20Standard();
-void    setupEnobio20BipolarLongitudinal();
-void    setupEnobio20BipolarTransversal();
-void    setupEnobio32();
+void    setupicognos20Standard();
+void    setupicognos20BipolarLongitudinal();
+void    setupicognos20BipolarTransversal();
+void    setupicognos32();
 
 void    setBipolarLongitudinalPlacement(unsigned int channelID, ElectrodePosition::BipolarLongitudinal::BipolarLongitudinalPairEnum pairID);
 void    setBipolarTransversalPlacement(unsigned int channelID, ElectrodePosition::BipolarTransversal::TransBipPairEnum pairID);
@@ -398,8 +398,8 @@ struct ElectrodePlacementsDict{
      * it is taken from the list of keys in the maps, therefore providing the
      * set order
     */
-    void sortByScalp(DeviceType::SupportedNICDevice dev,/* EnobioSetup s,*/ bool eog);
-    void sortByName(DeviceType::SupportedNICDevice dev,/* EnobioSetup s,*/ bool eog);
+    void sortByScalp(DeviceType::SupportedNICDevice dev,/* icognosSetup s,*/ bool eog);
+    void sortByName(DeviceType::SupportedNICDevice dev,/* icognosSetup s,*/ bool eog);
 
 
     QVector<QString>                electrodeChannelNames;
@@ -448,10 +448,10 @@ struct ElectrodePlacementsDict{
     QVector<unsigned int>           currentElectrodePlacement;
 
     inline int setElectrodePlacement(unsigned int c, unsigned int p);
-    void setupEnobio20Standard();
-    void setupEnobio20BipolarLongitudinal();
-    void setupEnobio20BipolarTransversal();
-    void setupEnobio32();
+    void setupicognos20Standard();
+    void setupicognos20BipolarLongitudinal();
+    void setupicognos20BipolarTransversal();
+    void setupicognos32();
     void setEOGPlacement(bool enabled);
 
 private:
@@ -473,7 +473,7 @@ QMutex _electrodeSetupMutex;
 ElectrodePlacementsDict _edb;
 
 DeviceType::SupportedNICDevice  _dev;
-EnobioSetup                   _enobio20Setup;
+icognosSetup                   _icognos20Setup;
 ElectrodeSort                 _currentSort;
 unsigned int _deviceEEGChannelTotal;
 unsigned int _deviceStimulationChannelTotal;

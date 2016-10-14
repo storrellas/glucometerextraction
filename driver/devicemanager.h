@@ -11,7 +11,7 @@
 
 // Project includes
 #include "commonparameters.h"
-#include "starstimcom.h"
+#include "icognoscom.h"
 #include "devicemanagertypes.h"
 #include "sleeper.h"
 
@@ -49,20 +49,20 @@ public:
     /*!
      * It returns the firmware version.
      */
-    int getFirmwareVersion (){ return _starstimCom->getFirmwareVersion(); }
+    int getFirmwareVersion (){ return _icognosCom->getFirmwareVersion(); }
 
     /*!
      * \brief setDeviceType getter/setter for DeviceType
      * \param type
      */         
-    DeviceManagerTypes::DeviceType getDeviceType(){ return _starstimCom->getDeviceType(); }
-    QString deviceType2String(){ return _starstimCom->deviceType2String(); }
+    DeviceManagerTypes::DeviceType getDeviceType(){ return _icognosCom->getDeviceType(); }
+    QString deviceType2String(){ return _icognosCom->deviceType2String(); }
 
     /*!
      * \brief getDeviceStatus returns the device status
      * \return
      */
-    DeviceManagerTypes::DeviceStatus getDeviceStatus(){ return _starstimCom->getDeviceStatus(); }
+    DeviceManagerTypes::DeviceStatus getDeviceStatus(){ return _icognosCom->getDeviceStatus(); }
 
     /*!
      * Indicates whether the device is stimulating.
@@ -73,14 +73,14 @@ public:
     /*!
      * returns the number of channels
      */
-    int getNumOfChannels(){ return _starstimCom->getNumOfChannels(); }
+    int getNumOfChannels(){ return _icognosCom->getNumOfChannels(); }
 
     /*!
      * \brief setSampleRate setter and getter for sample rate
      * \param sampleRate
      */
     void setSampleRate(DeviceManagerTypes::SampleRate sampleRate);
-    DeviceManagerTypes::SampleRate getSampleRate(){ return _starstimCom->getSampleRate(); }
+    DeviceManagerTypes::SampleRate getSampleRate(){ return _icognosCom->getSampleRate(); }
 
 
     // Open/Close operations
@@ -111,7 +111,7 @@ public:
 
     /*!
      * \brief initRegisters initialises the registers of the EEG bank depending on whether
-     * the device is starstim or enobio. Set the EEG registers for 500Hz, G=6, Vref=2.4
+     * the device is icognos or icognos. Set the EEG registers for 500Hz, G=6, Vref=2.4
      *
      * \param partialInit writes only the minimal set of registers. Used when initEEGRegisters already called
      */
@@ -175,7 +175,7 @@ public:
     // Streaming Requests
 
     /*!
-     * It sends a request to the Enobio3G/StarStim to start the EEG streaming.
+     * It sends a request to the icognos3G/StarStim to start the EEG streaming.
      *
      * \return True if the request has been correctly received by the device,
      * false otherwise.
@@ -183,7 +183,7 @@ public:
     bool startStreaming ();
 
     /*!
-     * It sends a request to the Enobio3G/StarStim to stop the EEG streaming.
+     * It sends a request to the icognos3G/StarStim to stop the EEG streaming.
      *
      * \param doStopAccelerometer In case that the Accelerometer is on, indicates if it should be stopped or not (useful for SDCard recording)
      *
@@ -288,9 +288,9 @@ private:
 
 
     /*!
-     * \brief _starstimCom instance to DeviceManagerPoll
+     * \brief _icognosCom instance to DeviceManagerPoll
      */
-    StarstimCom* _starstimCom;
+    StarstimCom* _icognosCom;
 
     // Device Profile
 
@@ -356,10 +356,10 @@ signals:
 
 
     /*!
-     * Signal that is emitted whenever the Enobio3G/StarStim device status
+     * Signal that is emitted whenever the icognos3G/StarStim device status
      * changes.
      *
-     * \param deviceStatus New Enobio3G/Starstim status. The value 0xFF means
+     * \param deviceStatus New icognos3G/Starstim status. The value 0xFF means
      * that the device does not repond. For different values the meaning is at
      * bit level as it follows: Bit 6: Stimulation ON/OFF, Bit 5: EEG Streaming
      * ON/OFF, Impedance measurement ON/OFF. Bit set to one means ON.
